@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SD Empire - Affiliate Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#070707;
+    color:#fff;
+}
+
+/* HEADER */
+header{
+    background:#111;
+    border-bottom:1px solid #252525;
+    padding:18px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+}
+
+.orange{
+    color:#ff7f00;
+}
+
+.logout{
+    background:#ff7f00;
+    color:#fff;
+    border:0;
+    padding:11px 18px;
+    border-radius:9px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MAIN */
+.container{
+    width:92%;
+    max-width:1000px;
+    margin:30px auto;
+}
+
+/* WELCOME */
+.welcome{
+    background:#111;
+    border:1px solid #252525;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:20px;
+}
+
+.welcome h1{
+    color:#ff7f00;
+    margin-bottom:8px;
+}
+
+.email{
+    color:#aaa;
+}
+
+/* EARNINGS */
+.earnings{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.card{
+    background:#111;
+    border:1px solid #252525;
+    border-radius:16px;
+    padding:24px;
+}
+
+.card h3{
+    color:#aaa;
+    font-size:15px;
+}
+
+.amount{
+    color:#ff7f00;
+    font-size:30px;
+    font-weight:900;
+    margin-top:10px;
+}
+
+/* AFFILIATE */
+.affiliate{
+    margin-top:20px;
+}
+
+.affiliate h2{
+    color:#ff7f00;
+    margin-bottom:15px;
+}
+
+.referral{
+    background:#080808;
+    border:1px solid #333;
+    padding:14px;
+    border-radius:9px;
+    word-break:break-all;
+    color:#ccc;
+}
+
+.copy{
+    margin-top:12px;
+    background:#ff7f00;
+    color:#fff;
+    border:0;
+    padding:12px 18px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* SALES */
+.sales{
+    margin-top:20px;
+}
+
+.sales h2{
+    color:#ff7f00;
+    margin-bottom:15px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:13px 8px;
+    border-bottom:1px solid #292929;
+    text-align:left;
+}
+
+th{
+    color:#aaa;
+}
+
+.paid{
+    color:#ff7f00;
+    font-weight:bold;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    .earnings{
+        grid-template-columns:1fr;
+    }
+
+    th,td{
+        font-size:13px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        SD <span class="orange">EMPIRE</span>
+    </div>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
+</header>
+
+
+<div class="container">
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Affiliate Dashboard
+        </h1>
+
+        <p class="email">
+            Logged in as:
+            <span id="userEmail"></span>
+        </p>
+
+    </div>
+
+
+    <!-- EARNINGS -->
+
+    <div class="earnings">
+
+        <div class="card">
+            <h3>Today's Earnings</h3>
+            <div class="amount">₹500</div>
+        </div>
+
+        <div class="card">
+            <h3>7 Days Earnings</h3>
+            <div class="amount">₹2,500</div>
+        </div>
+
+        <div class="card">
+            <h3>30 Days Earnings</h3>
+            <div class="amount">₹8,500</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Earnings</h3>
+            <div class="amount">₹15,000</div>
+        </div>
+
+    </div>
+
+
+    <!-- AFFILIATE LINK -->
+
+    <div class="card affiliate">
+
+        <h2>
+            Affiliate Panel
+        </h2>
+
+        <p>
+            Your Affiliate Link
+        </p>
+
+        <div
+            class="referral"
+            id="affiliateLink">
+        </div>
+
+        <button
+            class="copy"
+            onclick="copyLink()">
+            Copy Affiliate Link
+        </button>
+
+    </div>
+
+
+    <!-- SALES -->
+
+    <div class="card sales">
+
+        <h2>
+            Your Sales
+        </h2>
+
+        <table>
+
+            <tr>
+                <th>Customer</th>
+                <th>Course</th>
+                <th>Commission</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td>Customer 1</td>
+                <td>Digital Marketing</td>
+                <td>₹400</td>
+                <td class="paid">Paid</td>
+            </tr>
+
+            <tr>
+                <td>Customer 2</td>
+                <td>Affiliate Marketing</td>
+                <td>₹1,200</td>
+                <td class="paid">Paid</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* LOGIN CHECK */
+
+const loggedIn =
+localStorage.getItem("sdEmpireLoggedIn");
+
+if(loggedIn !== "true"){
+
+    window.location.href = "login.html";
+
+}
+
+
+/* SHOW EMAIL */
+
+const email =
+localStorage.getItem("sdEmpireEmail");
+
+document.getElementById("userEmail").innerText =
+email || "Affiliate";
+
+
+/* CREATE AFFILIATE LINK */
+
+const affiliateLink =
+window.location.origin +
+window.location.pathname.replace(
+    "dashboard.html",
+    ""
+) +
+"?ref=" +
+encodeURIComponent(
+    email || "affiliate"
+);
+
+document.getElementById("affiliateLink").innerText =
+affiliateLink;
+
+
+/* COPY LINK */
+
+function copyLink(){
+
+    navigator.clipboard.writeText(
+        affiliateLink
+    );
+
+    alert("Affiliate link copied!");
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    localStorage.removeItem(
+        "sdEmpireLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "sdEmpireEmail"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
