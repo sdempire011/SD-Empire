@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SD Empire — Student Dashboard</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#080808;
+  color:white;
+}
+
+header{
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #222;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+
+button{
+  background:white;
+  color:black;
+  border:0;
+  padding:12px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+.auth{
+  max-width:420px;
+  margin:60px auto;
+  background:#111;
+  padding:30px;
+  border-radius:15px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  background:#181818;
+  color:white;
+  border:1px solid #333;
+  border-radius:8px;
+}
+
+.auth button{
+  width:100%;
+  margin-top:10px;
+}
+
+.hidden{
+  display:none;
+}
+
+.card{
+  background:#111;
+  border:1px solid #222;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin:20px 0;
+}
+
+.stat{
+  background:#151515;
+  padding:20px;
+  border-radius:12px;
+}
+
+.stat h2{
+  margin-top:8px;
+}
+
+.course{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.referral{
+  background:#181818;
+  padding:15px;
+  border-radius:10px;
+  word-break:break-all;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SD EMPIRE</div>
+  <button id="logoutBtn" class="hidden" onclick="logout()">Logout</button>
+</header>
+
+<!-- LOGIN -->
+<section id="loginPage" class="auth">
+
+<h2>Student Login</h2>
+
+<input id="loginEmail" type="email" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p style="margin-top:20px;text-align:center">
+Don't have an account?
+<a href="#" onclick="showSignup()" style="color:white">Create Account</a>
+</p>
+
+</section>
+
+
+<!-- SIGNUP -->
+<section id="signupPage" class="auth hidden">
+
+<h2>Create Student Account</h2>
+
+<input id="signupName" placeholder="Full Name">
+<input id="signupEmail" type="email" placeholder="Email">
+<input id="signupPassword" type="password" placeholder="Password">
+
+<button onclick="signup()">Create Account</button>
+
+<p style="margin-top:20px;text-align:center">
+Already have an account?
+<a href="#" onclick="showLogin()" style="color:white">Login</a>
+</p>
+
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="container hidden">
+
+<h1>Welcome, <span id="studentName"></span></h1>
+<p style="margin-top:8px;color:#aaa">
+Your SD Empire Student Dashboard
+</p>
+
+
+<div class="grid">
+
+<div class="stat">
+<p>Courses Purchased</p>
+<h2 id="courseCount">0</h2>
+</div>
+
+<div class="stat">
+<p>Total Referral Sales</p>
+<h2 id="salesCount">0</h2>
+</div>
+
+<div class="stat">
+<p>Commission</p>
+<h2>₹<span id="commission">0</span></h2>
+</div>
+
+</div>
+
+
+<!-- MY COURSES -->
+<div class="card">
+
+<h2>My Courses</h2>
+
+<div id="courses"></div>
+
+</div>
+
+
+<!-- REFERRAL -->
+<div class="card">
+
+<h2>Sell / Refer Course</h2>
+
+<p style="color:#aaa;margin-top:10px">
+Share your personal referral link.
+</p>
+
+<div class="referral" id="referralLink"></div>
+
+<button onclick="copyReferral()" style="margin-top:10px">
+Copy Referral Link
+</button>
+
+</div>
+
+
+<!-- SALES -->
+<div class="card">
+
+<h2>My Sales</h2>
+
+<div id="sales"></div>
+
+</div>
+
+</section>
+
+
+<script>
+
+let users = JSON.parse(localStorage.getItem("sd_users")) || [];
+
+let currentUser =
+JSON.parse(localStorage.getItem("sd_currentUser")) || null;
+
+
+// SHOW LOGIN
+function showLogin(){
+
+document.getElementById("loginPage").classList.remove("hidden");
+document.getElementById("signupPage").classList.add("hidden");
+
+}
+
+
+// SHOW SIGNUP
+function showSignup(){
+
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("signupPage").classList.remove("hidden");
+
+}
+
+
+// SIGNUP
+function signup(){
+
+let name =
+document.getElementById("signupName").value.trim();
+
+let email =
+document.getElementById("signupEmail").value.trim();
+
+let password =
+document.getElementById("signupPassword").value;
+
+if(!name || !email || !password){
+
+alert("Please fill all fields.");
+return;
+
+}
+
+if(users.some(u => u.email === email)){
+
+alert("Account already exists.");
+return;
+
+}
+
+let user = {
+
+id:Date.now(),
+
+name:name,
+
+email:email,
+
+password:password,
+
+courses:[],
+
+sales:[],
+
+commission:0
+
+};
+
+users.push(user);
+
+localStorage.setItem("sd_users",JSON.stringify(users));
+
+alert("Account created successfully.");
+
+showLogin();
+
+}
+
+
+// LOGIN
+function login(){
+
+let email =
+document.getElementById("loginEmail").value.trim();
+
+let password =
+document.getElementById("loginPassword").value;
+
+let user =
+users.find(u =>
+u.email === email &&
+u.password === password
+);
+
+if(!user){
+
+alert("Invalid email or password.");
+return;
+
+}
+
+currentUser=user;
+
+localStorage.setItem(
+"sd_currentUser",
+JSON.stringify(user)
+);
+
+openDashboard();
+
+}
+
+
+// DASHBOARD
+function openDashboard(){
+
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("signupPage").classList.add("hidden");
+
+document.getElementById("dashboard").classList.remove("hidden");
+
+document.getElementById("logoutBtn").classList.remove("hidden");
+
+document.getElementById("studentName").innerText =
+currentUser.name;
+
+document.getElementById("courseCount").innerText =
+currentUser.courses.length;
+
+document.getElementById("salesCount").innerText =
+currentUser.sales.length;
+
+document.getElementById("commission").innerText =
+currentUser.commission;
+
+showCourses();
+
+showSales();
+
+showReferral();
+
+}
+
+
+// COURSES
+function showCourses(){
+
+let box =
+document.getElementById("courses");
+
+if(currentUser.courses.length === 0){
+
+box.innerHTML =
+"<p style='color:#aaa;margin-top:15px'>No courses purchased yet.</p>";
+
+return;
+
+}
+
+box.innerHTML =
+currentUser.courses.map(course => `
+
+<div class="course" style="margin-top:15px">
+
+<div>
+<h3>${course.name}</h3>
+<p style="color:#aaa">₹${course.price}</p>
+</div>
+
+<button onclick="openCourse('${course.id}')">
+Open Course
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+// OPEN COURSE
+function openCourse(id){
+
+alert(
+"Course opened!\n\nCourse ID: " + id +
+"\n\nYahan tum actual video/course page connect kar sakte ho."
+);
+
+}
+
+
+// REFERRAL LINK
+function showReferral(){
+
+let link =
+window.location.origin +
+window.location.pathname +
+"?ref=" +
+currentUser.id;
+
+document.getElementById("referralLink").innerText=link;
+
+}
+
+
+// COPY
+function copyReferral(){
+
+let text =
+document.getElementById("referralLink").innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("Referral link copied!");
+
+}
+
+
+// SALES
+function showSales(){
+
+let box =
+document.getElementById("sales");
+
+if(currentUser.sales.length === 0){
+
+box.innerHTML =
+"<p style='color:#aaa;margin-top:15px'>No sales yet.</p>";
+
+return;
+
+}
+
+box.innerHTML =
+currentUser.sales.map(sale => `
+
+<div style="
+margin-top:12px;
+padding:15px;
+background:#181818;
+border-radius:10px">
+
+<strong>${sale.customer}</strong>
+
+<p style="color:#aaa">
+Course: ${sale.course}
+</p>
+
+<p>
+Sale Amount: ₹${sale.amount}
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+// LOGOUT
+function logout(){
+
+currentUser=null;
+
+localStorage.removeItem("sd_currentUser");
+
+document.getElementById("dashboard")
+.classList.add("hidden");
+
+document.getElementById("logoutBtn")
+.classList.add("hidden");
+
+showLogin();
+
+}
+
+
+// AUTO LOGIN
+if(currentUser){
+
+openDashboard();
+
+}
+
+</script>
+
+</body>
+</html>
