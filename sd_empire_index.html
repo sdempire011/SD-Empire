@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SD Empire — learn digital skills, affiliate marketing and future-ready skills through practical courses.">
+<title>SD Empire | Learn. Build. Lead.</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070707;--card:#111;--line:#252525;--text:#f5f5f5;--muted:#a5a5a5;--accent:#fff}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+a{text-decoration:none;color:inherit}
+button{font:inherit;cursor:pointer}
+.nav{position:sticky;top:0;z-index:50;background:rgba(7,7,7,.88);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1150px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:22px;font-weight:900;letter-spacing:-1px}
+.logo span{font-weight:800}
+.navlinks{display:flex;gap:24px;color:#bbb;font-size:14px}
+.navlinks a:hover{color:#fff}
+.hero{max-width:1150px;margin:auto;padding:100px 22px 80px;text-align:center}
+.badge{display:inline-block;border:1px solid #333;border-radius:999px;padding:7px 14px;color:#bbb;font-size:12px;margin-bottom:24px}
+.hero h1{font-size:clamp(48px,10vw,100px);line-height:.9;letter-spacing:-5px;font-weight:950}
+.hero h1 .empire{display:block;font-family:Georgia,serif;font-style:italic;letter-spacing:-4px}
+.hero p{max-width:680px;margin:25px auto;color:var(--muted);font-size:17px}
+.btn{display:inline-block;border:1px solid #fff;background:#fff;color:#000;padding:13px 22px;border-radius:10px;font-weight:800;margin:6px}
+.btn.alt{background:transparent;color:#fff;border-color:#333}
+.section{max-width:1150px;margin:auto;padding:75px 22px}
+.section-title{font-size:38px;letter-spacing:-1.5px;margin-bottom:10px}
+.section-sub{color:var(--muted);margin-bottom:30px}
+.courses{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:linear-gradient(180deg,#131313,#0d0d0d);border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;flex-direction:column;min-height:310px}
+.card .num{color:#777;font-size:12px;font-weight:bold}
+.card h3{font-size:23px;margin:12px 0 8px}
+.card p{color:#999;font-size:14px}
+.price{font-size:32px;font-weight:900;margin:18px 0}
+.card button{margin-top:auto;width:100%;border:0;background:#fff;color:#000;border-radius:10px;padding:12px;font-weight:800}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.feature{border:1px solid var(--line);border-radius:16px;padding:25px;background:#0d0d0d}
+.feature h3{margin-bottom:8px}.feature p{color:#999;font-size:14px}
+.dashboard{display:none}
+.panel{background:#0e0e0e;border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:20px}
+.panel h3{margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:#151515;border-radius:12px;padding:18px}.stat small{color:#888}.stat strong{display:block;font-size:25px;margin-top:4px}
+.leader-row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #222}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
+.modal-box{width:min(520px,100%);background:#111;border:1px solid #333;border-radius:18px;padding:25px}
+.modal-box h2{margin-bottom:7px}.modal-box p{color:#999;margin-bottom:18px}
+input{width:100%;padding:13px;border-radius:9px;border:1px solid #333;background:#080808;color:#fff;margin:6px 0 12px;outline:none}
+.close{float:right;background:none;border:0;color:#888;font-size:24px}
+.video{border:1px solid #292929;border-radius:14px;padding:25px;margin-top:12px;background:#090909}
+.video strong{display:block;margin-bottom:5px}.video span{color:#888;font-size:13px}
+.locked{opacity:.55}
+footer{border-top:1px solid var(--line);text-align:center;padding:35px 20px;color:#777;font-size:13px}
+@media(max-width:850px){.courses{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}.navlinks{display:none}}
+@media(max-width:520px){.courses{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.hero{padding-top:70px}.hero h1{letter-spacing:-3px}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#home">SD <span>EMPIRE</span></a>
+    <div class="navlinks">
+      <a href="#courses">Courses</a>
+      <a href="#why">Why SD Empire</a>
+      <a href="#dashboard">Dashboard</a>
+    </div>
+  </div>
+</nav>
+
+<main id="home">
+<section class="hero">
+  <div class="badge">FUTURE-READY LEARNING PLATFORM</div>
+  <h1>SD <span class="empire">𝗘𝗠𝗣𝗜𝗥𝗘</span></h1>
+  <p>Learn practical digital skills, build real-world knowledge and prepare for the future with focused, affordable courses.</p>
+  <a class="btn" href="#courses">Explore Courses</a>
+  <a class="btn alt" href="#dashboard">My Dashboard</a>
+</section>
+
+<section class="section" id="courses">
+  <h2 class="section-title">Courses</h2>
+  <p class="section-sub">Start small. Learn deeply. Upgrade when you're ready.</p>
+  <div class="courses">
+    <article class="card">
+      <span class="num">01 / STARTER</span>
+      <h3>Digital Skills</h3>
+      <p>Foundation course for building essential digital knowledge.</p>
+      <div class="price">₹200</div>
+      <button onclick="openEnroll(1,'Digital Skills',200)">Enroll Now</button>
+    </article>
+    <article class="card">
+      <span class="num">02 / GROWTH</span>
+      <h3>Digital Marketing</h3>
+      <p>Learn practical marketing concepts, content and online growth.</p>
+      <div class="price">₹400</div>
+      <button onclick="openEnroll(2,'Digital Marketing',400)">Enroll Now</button>
+    </article>
+    <article class="card">
+      <span class="num">03 / PRO</span>
+      <h3>Affiliate Marketing</h3>
+      <p>Understand affiliate systems, promotion strategies and tracking.</p>
+      <div class="price">₹1,200</div>
+      <button onclick="openEnroll(3,'Affiliate Marketing',1200)">Enroll Now</button>
+    </article>
+    <article class="card">
+      <span class="num">04 / EMPIRE</span>
+      <h3>Future Business</h3>
+      <p>An advanced program for digital business and future-ready skills.</p>
+      <div class="price">₹5,000</div>
+      <button onclick="openEnroll(4,'Future Business',5000)">Enroll Now</button>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="why">
+  <h2 class="section-title">Built for the future.</h2>
+  <p class="section-sub">Simple learning. Practical knowledge. Continuous growth.</p>
+  <div class="features">
+    <div class="feature"><h3>Practical Learning</h3><p>Course content can focus on real projects and useful digital skills.</p></div>
+    <div class="feature"><h3>Affordable Access</h3><p>Multiple price levels let learners start with a course that fits them.</p></div>
+    <div class="feature"><h3>Growth System</h3><p>Dashboard and leaderboard sections are ready for your future affiliate system.</p></div>
+  </div>
+</section>
+
+<section class="section dashboard" id="dashboard">
+  <h2 class="section-title">My Dashboard</h2>
+  <p class="section-sub" id="dashWelcome">Enroll in a course to see your learning area.</p>
+  <div class="panel">
+    <div class="stats">
+      <div class="stat"><small>Enrolled Courses</small><strong id="courseCount">0</strong></div>
+      <div class="stat"><small>Affiliate Clicks</small><strong id="clicks">0</strong></div>
+      <div class="stat"><small>Commission</small><strong id="commission">₹0</strong></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>My Courses</h3>
+    <div id="myCourses"><p style="color:#888">No courses enrolled yet.</p></div>
+  </div>
+  <div class="panel">
+    <h3>Leaderboard</h3>
+    <div class="leader-row"><span>1. Your Name</span><strong>0 points</strong></div>
+    <div class="leader-row"><span>2. Affiliate Member</span><strong>0 points</strong></div>
+    <div class="leader-row"><span>3. New Member</span><strong>0 points</strong></div>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 SD Empire. Learn. Build. Lead.</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle">Enroll</h2>
+    <p id="modalPrice"></p>
+    <form onsubmit="enroll(event)">
+      <input id="name" required placeholder="Your name">
+      <input id="email" type="email" required placeholder="Email address">
+      <input id="phone" required placeholder="Phone number">
+      <button class="btn" style="width:100%;margin:6px 0 0" type="submit">Continue Enrollment</button>
+    </form>
+  </div>
+</div>
+
+<script>
+let selectedCourse = null;
+
+function openEnroll(id,name,price){
+  selectedCourse={id,name,price};
+  document.getElementById('modalTitle').textContent='Enroll in '+name;
+  document.getElementById('modalPrice').textContent='Course price: ₹'+price;
+  document.getElementById('modal').style.display='flex';
+}
+function closeModal(){document.getElementById('modal').style.display='none'}
+function enroll(e){
+  e.preventDefault();
+  const student={name:document.getElementById('name').value,email:document.getElementById('email').value,phone:document.getElementById('phone').value};
+  localStorage.setItem('sdEmpireStudent',JSON.stringify(student));
+  const courses=JSON.parse(localStorage.getItem('sdEmpireCourses')||'[]');
+  if(!courses.some(c=>c.id===selectedCourse.id)){
+    courses.push(selectedCourse);
+    localStorage.setItem('sdEmpireCourses',JSON.stringify(courses));
+  }
+  closeModal();
+  renderDashboard();
+  document.getElementById('dashboard').style.display='block';
+  document.getElementById('dashboard').scrollIntoView({behavior:'smooth'});
+}
+function renderDashboard(){
+  const student=JSON.parse(localStorage.getItem('sdEmpireStudent')||'null');
+  const courses=JSON.parse(localStorage.getItem('sdEmpireCourses')||'[]');
+  document.getElementById('courseCount').textContent=courses.length;
+  document.getElementById('dashWelcome').textContent=student ? 'Welcome, '+student.name+'. Your enrolled learning area is below.' : 'Enroll in a course to see your learning area.';
+  const box=document.getElementById('myCourses');
+  if(!courses.length){box.innerHTML='<p style="color:#888">No courses enrolled yet.</p>';return}
+  box.innerHTML=courses.map(c=>`
+    <div class="video">
+      <strong>${c.name}</strong>
+      <span>Private course area — video lessons will be added here.</span>
+      <div class="video locked">Video 01 • Locked until your secure payment/enrollment is verified.</div>
+    </div>`).join('');
+}
+window.addEventListener('load',renderDashboard);
+</script>
+</body>
+</html>
