@@ -2,174 +2,119 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SD Empire - Affiliate Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SD Empire | Dashboard</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,Helvetica,sans-serif;
+:root{
+ --orange:#FF7F00;
+ --dark:#160044;
+ --light:#f7f6fb;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-    background:#070707;
-    color:#fff;
+ font-family:Arial,sans-serif;
+ background:var(--light);
+ color:#222;
 }
-
-/* HEADER */
 header{
-    background:#111;
-    border-bottom:1px solid #252525;
-    padding:18px 5%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+ height:70px;
+ background:var(--dark);
+ color:white;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 6%;
 }
-
 .logo{
-    font-size:25px;
-    font-weight:900;
+ font-size:23px;
+ font-weight:900;
 }
-
-.orange{
-    color:#ff7f00;
-}
-
+.logo span{color:var(--orange)}
 .logout{
-    background:#ff7f00;
-    color:#fff;
-    border:0;
-    padding:11px 18px;
-    border-radius:9px;
-    font-weight:bold;
-    cursor:pointer;
+ background:var(--orange);
+ color:white;
+ border:0;
+ padding:11px 20px;
+ border-radius:25px;
+ font-weight:bold;
+ cursor:pointer;
 }
-
-/* MAIN */
 .container{
-    width:92%;
-    max-width:1000px;
-    margin:30px auto;
+ max-width:1100px;
+ margin:auto;
+ padding:40px 20px;
 }
-
-/* WELCOME */
 .welcome{
-    background:#111;
-    border:1px solid #252525;
-    border-radius:18px;
-    padding:25px;
-    margin-bottom:20px;
+ background:white;
+ padding:30px;
+ border-radius:18px;
+ box-shadow:0 5px 20px #0001;
+ margin-bottom:25px;
 }
-
 .welcome h1{
-    color:#ff7f00;
-    margin-bottom:8px;
+ color:var(--dark);
+ margin-bottom:10px;
 }
-
-.email{
-    color:#aaa;
+.welcome span{color:var(--orange)}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:20px;
 }
-
-/* EARNINGS */
-.earnings{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
 .card{
-    background:#111;
-    border:1px solid #252525;
-    border-radius:16px;
-    padding:24px;
+ background:white;
+ border-radius:16px;
+ padding:25px;
+ box-shadow:0 5px 20px #0001;
 }
-
 .card h3{
-    color:#aaa;
-    font-size:15px;
+ color:var(--dark);
+ margin-bottom:12px;
 }
-
-.amount{
-    color:#ff7f00;
-    font-size:30px;
-    font-weight:900;
-    margin-top:10px;
+.card p{
+ color:#777;
+ line-height:1.6;
 }
-
-/* AFFILIATE */
-.affiliate{
-    margin-top:20px;
+.course{
+ border-left:5px solid var(--orange);
 }
-
-.affiliate h2{
-    color:#ff7f00;
-    margin-bottom:15px;
+.status{
+ display:inline-block;
+ background:#fff0df;
+ color:#a25e00;
+ padding:7px 12px;
+ border-radius:20px;
+ font-size:12px;
+ margin-top:15px;
 }
-
-.referral{
-    background:#080808;
-    border:1px solid #333;
-    padding:14px;
-    border-radius:9px;
-    word-break:break-all;
-    color:#ccc;
+.selected{
+ margin-top:20px;
+ background:#fff3e7;
+ padding:18px;
+ border-radius:12px;
 }
-
-.copy{
-    margin-top:12px;
-    background:#ff7f00;
-    color:#fff;
-    border:0;
-    padding:12px 18px;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
+.selected strong{color:var(--orange)}
+.actions{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-top:20px;
 }
-
-/* SALES */
-.sales{
-    margin-top:20px;
+.action{
+ background:var(--orange);
+ color:#fff;
+ padding:12px 18px;
+ border-radius:25px;
+ font-weight:bold;
+ display:inline-block;
 }
-
-.sales h2{
-    color:#ff7f00;
-    margin-bottom:15px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th,td{
-    padding:13px 8px;
-    border-bottom:1px solid #292929;
-    text-align:left;
-}
-
-th{
-    color:#aaa;
-}
-
-.paid{
-    color:#ff7f00;
-    font-weight:bold;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-
-    .earnings{
-        grid-template-columns:1fr;
-    }
-
-    th,td{
-        font-size:13px;
-    }
-
+.action.dark{background:var(--dark)}
+@media(max-width:700px){
+ .grid{grid-template-columns:1fr}
+ header{padding:0 5%}
+ .logo{font-size:20px}
+ .logout{padding:9px 15px}
 }
 </style>
 </head>
@@ -178,197 +123,89 @@ th{
 
 <header>
 
-    <div class="logo">
-        SD <span class="orange">EMPIRE</span>
-    </div>
+<div class="logo">SD <span>EMPIRE</span></div>
 
-    <button class="logout" onclick="logout()">
-        Logout
-    </button>
+<button class="logout" onclick="logout()">Logout</button>
 
 </header>
 
+<main class="container">
 
-<div class="container">
+<div class="welcome">
 
-    <!-- WELCOME -->
+<h1>Welcome, <span id="userName">Student</span></h1>
 
-    <div class="welcome">
+<p>
+Welcome to your SD Empire dashboard.
+Manage your learning and enrolled courses here.
+</p>
 
-        <h1>
-            Affiliate Dashboard
-        </h1>
+<div class="selected">
+<strong>Selected Course:</strong>
+<span id="selectedCourse">No course selected</span>
+</div>
 
-        <p class="email">
-            Logged in as:
-            <span id="userEmail"></span>
-        </p>
-
-    </div>
-
-
-    <!-- EARNINGS -->
-
-    <div class="earnings">
-
-        <div class="card">
-            <h3>Today's Earnings</h3>
-            <div class="amount">₹500</div>
-        </div>
-
-        <div class="card">
-            <h3>7 Days Earnings</h3>
-            <div class="amount">₹2,500</div>
-        </div>
-
-        <div class="card">
-            <h3>30 Days Earnings</h3>
-            <div class="amount">₹8,500</div>
-        </div>
-
-        <div class="card">
-            <h3>Total Earnings</h3>
-            <div class="amount">₹15,000</div>
-        </div>
-
-    </div>
-
-
-    <!-- AFFILIATE LINK -->
-
-    <div class="card affiliate">
-
-        <h2>
-            Affiliate Panel
-        </h2>
-
-        <p>
-            Your Affiliate Link
-        </p>
-
-        <div
-            class="referral"
-            id="affiliateLink">
-        </div>
-
-        <button
-            class="copy"
-            onclick="copyLink()">
-            Copy Affiliate Link
-        </button>
-
-    </div>
-
-
-    <!-- SALES -->
-
-    <div class="card sales">
-
-        <h2>
-            Your Sales
-        </h2>
-
-        <table>
-
-            <tr>
-                <th>Customer</th>
-                <th>Course</th>
-                <th>Commission</th>
-                <th>Status</th>
-            </tr>
-
-            <tr>
-                <td>Customer 1</td>
-                <td>Digital Marketing</td>
-                <td>₹400</td>
-                <td class="paid">Paid</td>
-            </tr>
-
-            <tr>
-                <td>Customer 2</td>
-                <td>Affiliate Marketing</td>
-                <td>₹1,200</td>
-                <td class="paid">Paid</td>
-            </tr>
-
-        </table>
-
-    </div>
+<div class="actions">
+<a href="index.html" class="action dark">← Home</a>
+<a href="index.html#courses" class="action">Explore Courses</a>
+</div>
 
 </div>
 
+<div class="grid">
+
+<div class="card course">
+<h3>My Courses</h3>
+<p>View your enrolled courses and continue learning.</p>
+<span class="status">Active</span>
+</div>
+
+<div class="card">
+<h3>My Profile</h3>
+<p><strong>Name:</strong> <span id="profileName"></span></p>
+<p><strong>Email:</strong> <span id="profileEmail"></span></p>
+</div>
+
+<div class="card">
+<h3>Learning Progress</h3>
+<p>Your learning dashboard is ready.</p>
+<span class="status">Getting Started</span>
+</div>
+
+</div>
+
+</main>
 
 <script>
 
-/* LOGIN CHECK */
+const loggedIn=localStorage.getItem("sdEmpireLoggedIn");
+const saved=localStorage.getItem("sdEmpireUser");
 
-const loggedIn =
-localStorage.getItem("sdEmpireLoggedIn");
-
-if(loggedIn !== "true"){
-
-    window.location.href = "login.html";
-
+if(!loggedIn || !saved){
+ location.href="login.html";
 }
 
+const user=JSON.parse(saved);
 
-/* SHOW EMAIL */
+document.getElementById("userName").innerText=user.name;
+document.getElementById("profileName").innerText=user.name;
+document.getElementById("profileEmail").innerText=user.email;
 
-const email =
-localStorage.getItem("sdEmpireEmail");
+const course=localStorage.getItem("selectedCourse");
 
-document.getElementById("userEmail").innerText =
-email || "Affiliate";
-
-
-/* CREATE AFFILIATE LINK */
-
-const affiliateLink =
-window.location.origin +
-window.location.pathname.replace(
-    "dashboard.html",
-    ""
-) +
-"?ref=" +
-encodeURIComponent(
-    email || "affiliate"
-);
-
-document.getElementById("affiliateLink").innerText =
-affiliateLink;
-
-
-/* COPY LINK */
-
-function copyLink(){
-
-    navigator.clipboard.writeText(
-        affiliateLink
-    );
-
-    alert("Affiliate link copied!");
-
+if(course){
+ document.getElementById("selectedCourse").innerText=course;
 }
-
-
-/* LOGOUT */
 
 function logout(){
 
-    localStorage.removeItem(
-        "sdEmpireLoggedIn"
-    );
+ localStorage.removeItem("sdEmpireLoggedIn");
 
-    localStorage.removeItem(
-        "sdEmpireEmail"
-    );
-
-    window.location.href =
-        "index.html";
+ location.href="index.html";
 
 }
 
 </script>
 
 </body>
-</html>
+    </html>
