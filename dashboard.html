@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SD Empire | Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#061a2b;
+    color:white;
+    min-height:100vh;
+}
+
+/* HEADER */
+.header{
+    height:70px;
+    background:#170047;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    border-bottom:2px solid #ff7f00;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:bold;
+    color:#ff7f00;
+}
+
+.logout{
+    background:#ff7f00;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* PROFILE */
+.profile{
+    text-align:center;
+    padding:30px 15px 20px;
+    background:linear-gradient(135deg,#087da7,#66c9e5);
+    border-bottom:3px solid white;
+}
+
+.profile-img{
+    width:125px;
+    height:125px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid white;
+    box-shadow:0 5px 15px rgba(0,0,0,.4);
+}
+
+.profile h1{
+    margin-top:15px;
+    font-size:30px;
+}
+
+.member{
+    display:inline-block;
+    margin-top:12px;
+    padding:10px 20px;
+    border-radius:8px;
+    background:#00aeea;
+    font-weight:bold;
+}
+
+.course-box{
+    margin:20px auto 0;
+    max-width:500px;
+    background:rgba(0,0,0,.2);
+    padding:15px;
+    border-radius:10px;
+}
+
+.course-box small{
+    display:block;
+    opacity:.8;
+    margin-bottom:5px;
+}
+
+.course-name{
+    color:#fff;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* COUNTDOWN */
+.countdown{
+    text-align:center;
+    padding:22px 15px;
+    background:#102d49;
+    border-bottom:2px solid white;
+}
+
+.countdown h2{
+    color:#ff7f00;
+    margin-bottom:8px;
+}
+
+.timer{
+    font-size:32px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:1fr;
+}
+
+.stat{
+    padding:28px 15px;
+    text-align:center;
+    border-bottom:2px solid white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.stat:active{
+    transform:scale(.98);
+}
+
+.stat:nth-child(1){
+    background:linear-gradient(135deg,#4bd5e8,#1976d2);
+}
+
+.stat:nth-child(2){
+    background:linear-gradient(135deg,#087da7,#07539b);
+}
+
+.stat:nth-child(3){
+    background:linear-gradient(135deg,#123b5c,#0b64a5);
+}
+
+.stat:nth-child(4){
+    background:linear-gradient(135deg,#312060,#163fa3);
+}
+
+.stat:nth-child(5){
+    background:linear-gradient(135deg,#4bd5e8,#1976d2);
+}
+
+.amount{
+    font-size:34px;
+    font-weight:bold;
+}
+
+.label{
+    margin-top:8px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.tap{
+    margin-top:8px;
+    font-size:11px;
+    opacity:.7;
+}
+
+/* REFERRAL */
+.referral{
+    background:linear-gradient(135deg,#d7b52e,#806b11);
+    padding:25px 15px;
+    text-align:center;
+}
+
+.referral h2{
+    margin-bottom:12px;
+}
+
+.referral-code{
+    background:white;
+    color:#111;
+    padding:13px;
+    border-radius:8px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.copy-btn{
+    background:#ff7f00;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* POPUP */
+.popup-bg{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:999;
+}
+
+.popup{
+    width:100%;
+    max-width:380px;
+    background:#102d49;
+    border:2px solid #ff7f00;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+}
+
+.popup h2{
+    color:#ff7f00;
+    margin-bottom:12px;
+}
+
+.popup p{
+    line-height:1.6;
+    color:#ddd;
+}
+
+.close{
+    margin-top:20px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#ff7f00;
+    color:white;
+    font-weight:bold;
+}
+
+/* DESKTOP */
+@media(min-width:700px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stat:last-child{
+        grid-column:1/3;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">SD EMPIRE</div>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+</header>
+
+
+<!-- PROFILE -->
+<section class="profile">
+
+    <img
+        id="profileImage"
+        class="profile-img"
+        src="https://via.placeholder.com/150"
+        alt="Profile"
+    >
+
+    <h1 id="userName">Saad Saudagar</h1>
+
+    <div class="member">
+        Creator Wave
+    </div>
+
+    <div class="course-box">
+        <small>Your Purchased Course</small>
+        <div class="course-name" id="courseName">
+            Loading...
+        </div>
+    </div>
+
+</section>
+
+
+<!-- COUNTDOWN -->
+<section class="countdown">
+
+    <h2>Next Earning Update</h2>
+
+    <div class="timer" id="timer">
+        00:00:00
+    </div>
+
+    <p style="margin-top:8px;color:#ccc;font-size:13px;">
+        Countdown continues even after refreshing the page
+    </p>
+
+</section>
+
+
+<!-- EARNING STATS -->
+<section class="stats">
+
+    <div class="stat" onclick="showPopup(
+        'Today’s Earning',
+        'Your earning information for today will appear here.'
+    )">
+
+        <div class="amount">₹0.00</div>
+
+        <div class="label">
+            Today's Earning
+        </div>
+
+        <div class="tap">
+            Tap for details
+        </div>
+
+    </div>
+
+
+    <div class="stat" onclick="showPopup(
+        'Last 7 Days',
+        'Your total earning for the last 7 days will appear here.'
+    )">
+
+        <div class="amount">₹0.00</div>
+
+        <div class="label">
+            Last 7 Days Earning
+        </div>
+
+        <div class="tap">
+            Tap for details
+        </div>
+
+    </div>
+
+
+    <div class="stat" onclick="showPopup(
+        'Last 30 Days',
+        'Your total earning for the last 30 days will appear here.'
+    )">
+
+        <div class="amount">₹0.00</div>
+
+        <div class="label">
+            Last 30 Days Earning
+        </div>
+
+        <div class="tap">
+            Tap for details
+        </div>
+
+    </div>
+
+
+    <div class="stat" onclick="showPopup(
+        'All Time Earning',
+        'Your complete earning history will appear here.'
+    )">
+
+        <div class="amount">₹0.00</div>
+
+        <div class="label">
+            All Time Earning
+        </div>
+
+        <div class="tap">
+            Tap for details
+        </div>
+
+    </div>
+
+
+    <div class="stat" onclick="showPopup(
+        'Industry Earning',
+        'Industry earning information will appear here.'
+    )">
+
+        <div class="amount">₹0.00</div>
+
+        <div class="label">
+            Industry Earning
+        </div>
+
+        <div class="tap">
+            Tap for details
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- REFERRAL -->
+<section class="referral">
+
+    <h2>Your Referral Code</h2>
+
+    <div class="referral-code" id="referralCode">
+        SD123456
+    </div>
+
+    <button class="copy-btn" onclick="copyReferral()">
+        Copy Referral Code
+    </button>
+
+</section>
+
+
+<!-- POPUP -->
+<div class="popup-bg" id="popupBg">
+
+    <div class="popup">
+
+        <h2 id="popupTitle">
+            Details
+        </h2>
+
+        <p id="popupText">
+            Information
+        </p>
+
+        <button class="close" onclick="closePopup()">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   USER DATA
+========================= */
+
+/*
+   Login/purchase ke time:
+   localStorage.setItem("userName","Saad Saudagar");
+   localStorage.setItem("courseName","Digital Marketing Masterclass");
+   localStorage.setItem("profileImage","image.jpg");
+*/
+
+const userName =
+    localStorage.getItem("userName") ||
+    "Saad Saudagar";
+
+const courseName =
+    localStorage.getItem("courseName") ||
+    "Your Course";
+
+const profileImage =
+    localStorage.getItem("profileImage") ||
+    "https://via.placeholder.com/150";
+
+document.getElementById("userName").textContent =
+    userName;
+
+document.getElementById("courseName").textContent =
+    courseName;
+
+document.getElementById("profileImage").src =
+    profileImage;
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+/*
+   First time dashboard open:
+   24 hour countdown start hoga.
+
+   Refresh karne par timer reset nahi hoga.
+*/
+
+let earningTarget =
+    localStorage.getItem("earningTarget");
+
+if(!earningTarget){
+
+    earningTarget =
+        Date.now() + (24 * 60 * 60 * 1000);
+
+    localStorage.setItem(
+        "earningTarget",
+        earningTarget
+    );
+}
+
+function updateTimer(){
+
+    const now = Date.now();
+
+    let difference =
+        Number(earningTarget) - now;
+
+    if(difference <= 0){
+
+        document.getElementById("timer").textContent =
+            "00:00:00";
+
+        return;
+    }
+
+    const hours =
+        Math.floor(difference / (1000 * 60 * 60));
+
+    const minutes =
+        Math.floor(
+            (difference % (1000 * 60 * 60))
+            / (1000 * 60)
+        );
+
+    const seconds =
+        Math.floor(
+            (difference % (1000 * 60))
+            / 1000
+        );
+
+    document.getElementById("timer").textContent =
+        String(hours).padStart(2,"0") + ":" +
+        String(minutes).padStart(2,"0") + ":" +
+        String(seconds).padStart(2,"0");
+}
+
+updateTimer();
+
+setInterval(updateTimer,1000);
+
+
+/* =========================
+   POPUP
+========================= */
+
+function showPopup(title,text){
+
+    document.getElementById("popupTitle")
+        .textContent = title;
+
+    document.getElementById("popupText")
+        .textContent = text;
+
+    document.getElementById("popupBg")
+        .style.display = "flex";
+}
+
+function closePopup(){
+
+    document.getElementById("popupBg")
+        .style.display = "none";
+}
+
+
+/* =========================
+   REFERRAL COPY
+========================= */
+
+function copyReferral(){
+
+    const code =
+        document.getElementById("referralCode")
+        .textContent;
+
+    navigator.clipboard.writeText(code);
+
+    showPopup(
+        "Copied!",
+        "Your referral code has been copied."
+    );
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    window.location.href =
+        "index.html";
+}
+
+
+/* POPUP OUTSIDE CLICK */
+
+document.getElementById("popupBg")
+.addEventListener("click",function(e){
+
+    if(e.target === this){
+        closePopup();
+    }
+
+});
+
+</script>
+
+</body>
+     </html>
