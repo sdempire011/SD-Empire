@@ -2,161 +2,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SD Empire - Affiliate Login</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SD Empire | Login</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial,sans-serif;
+:root{
+ --orange:#FF7F00;
+ --dark:#160044;
 }
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-    min-height:100vh;
-    background:#070707;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+ font-family:Arial,sans-serif;
+ min-height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(135deg,#160044,#351080);
+ padding:20px;
 }
-
-.login-box{
-    width:90%;
-    max-width:420px;
-    background:#111;
-    padding:30px;
-    border-radius:18px;
-    border:1px solid #252525;
+.box{
+ width:100%;
+ max-width:430px;
+ background:#fff;
+ border-radius:22px;
+ padding:35px;
+ box-shadow:0 20px 50px #0005;
 }
-
 .logo{
-    text-align:center;
-    font-size:32px;
-    font-weight:900;
-    margin-bottom:25px;
+ text-align:center;
+ font-size:28px;
+ font-weight:900;
+ color:var(--dark);
+ margin-bottom:8px;
 }
-
-.orange{
-    color:#ff7f00;
-}
-
-h2{
-    text-align:center;
-    color:#ff7f00;
-    margin-bottom:20px;
-}
-
+.logo span{color:var(--orange)}
+h2{text-align:center;margin:10px 0;color:#222}
+.subtitle{text-align:center;color:#777;font-size:14px;margin-bottom:25px}
+label{display:block;font-size:14px;font-weight:bold;margin:15px 0 7px}
 input{
-    width:100%;
-    padding:14px;
-    margin:7px 0;
-    background:#080808;
-    border:1px solid #333;
-    border-radius:9px;
-    color:white;
-    font-size:16px;
+ width:100%;
+ padding:14px;
+ border:1px solid #ddd;
+ border-radius:9px;
+ outline:none;
 }
-
-.continue-btn{
-    width:100%;
-    padding:14px;
-    margin-top:12px;
-    background:#ff7f00;
-    color:white;
-    border:0;
-    border-radius:9px;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
+input:focus{border-color:var(--orange)}
+button{
+ width:100%;
+ padding:14px;
+ margin-top:22px;
+ border:0;
+ border-radius:25px;
+ background:var(--orange);
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
+ font-size:15px;
 }
-
+.switch{
+ text-align:center;
+ margin-top:20px;
+ font-size:14px;
+ color:#777;
+}
+.switch a{color:var(--orange);font-weight:bold}
+.back{
+ display:block;
+ text-align:center;
+ margin-top:18px;
+ color:var(--dark);
+ font-size:14px;
+}
 .message{
-    text-align:center;
-    margin-top:15px;
-    color:#ff7f00;
+ text-align:center;
+ margin-top:12px;
+ color:var(--orange);
+ font-size:14px;
 }
-
-.home{
-    display:block;
-    text-align:center;
-    margin-top:20px;
-    color:#999;
-    text-decoration:none;
+.course-selected{
+ background:#fff3e6;
+ padding:10px;
+ border-radius:8px;
+ text-align:center;
+ font-size:13px;
+ margin-bottom:15px;
+ color:#9a5c00;
 }
 </style>
 </head>
 
 <body>
 
-<div class="login-box">
+<div class="box">
 
-    <div class="logo">
-        SD <span class="orange">EMPIRE</span>
-    </div>
+<div class="logo">SD <span>EMPIRE</span></div>
 
-    <h2>Affiliate Login</h2>
+<h2 id="title">Welcome Back</h2>
 
-    <input
-        type="email"
-        id="email"
-        placeholder="Email Address"
-    >
+<p class="subtitle" id="subtitle">
+Login to access your SD Empire dashboard.
+</p>
 
-    <input
-        type="password"
-        id="password"
-        placeholder="Password"
-    >
+<div id="selected" class="course-selected" style="display:none"></div>
 
-    <button
-        class="continue-btn"
-        onclick="login()">
-        Continue
-    </button>
+<form id="authForm">
 
-    <p class="message" id="message"></p>
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter your name">
 
-    <a href="index.html" class="home">
-        ← Back to Home
-    </a>
+<label>Email</label>
+<input type="email" id="email" placeholder="Enter your email" required>
+
+<label>Password</label>
+<input type="password" id="password" placeholder="Enter password" required>
+
+<button type="submit" id="submitBtn">Login</button>
+
+</form>
+
+<div class="switch">
+<span id="switchText">Don't have an account?</span>
+<a href="#" onclick="toggleMode()"> Sign Up</a>
+</div>
+
+<div class="message" id="message"></div>
+
+<a href="index.html" class="back">← Back to Home</a>
 
 </div>
 
 <script>
 
-function login(){
+let signup=false;
 
-    const email =
-        document.getElementById("email").value.trim();
+const params=new URLSearchParams(location.search);
+const selectedCourse=params.get("course");
 
-    const password =
-        document.getElementById("password").value.trim();
+if(selectedCourse){
+ document.getElementById("selected").style.display="block";
+ document.getElementById("selected").innerText=
+ "Selected: "+selectedCourse;
+ localStorage.setItem("selectedCourse",selectedCourse);
+}
 
-    if(email === "" || password === ""){
+function toggleMode(){
 
-        document.getElementById("message").innerText =
-        "Please enter email and password.";
+ signup=!signup;
 
-        return;
-    }
+ document.getElementById("name").style.display=
+ signup ? "block" : "none";
 
-    localStorage.setItem(
-        "sdEmpireLoggedIn",
-        "true"
-    );
+ document.querySelector("label").style.display=
+ signup ? "block" : "none";
 
-    localStorage.setItem(
-        "sdEmpireEmail",
-        email
-    );
+ document.getElementById("title").innerText=
+ signup ? "Create Account" : "Welcome Back";
 
-    window.location.href =
-        "dashboard.html";
+ document.getElementById("subtitle").innerText=
+ signup
+ ? "Create your SD Empire account."
+ : "Login to access your dashboard.";
+
+ document.getElementById("submitBtn").innerText=
+ signup ? "Create Account" : "Login";
+
+ document.getElementById("switchText").innerText=
+ signup ? "Already have an account?" : "Don't have an account?";
+
+ document.querySelector(".switch a").innerText=
+ signup ? " Login" : " Sign Up";
+}
+
+document.getElementById("name").style.display="none";
+document.querySelector("label").style.display="none";
+
+document.getElementById("authForm").addEventListener("submit",function(e){
+
+ e.preventDefault();
+
+ const name=document.getElementById("name").value.trim();
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+
+ if(signup){
+
+   if(!name){
+     show("Please enter your name.");
+     return;
+   }
+
+   const user={
+     name:name,
+     email:email,
+     password:password
+   };
+
+   localStorage.setItem("sdEmpireUser",JSON.stringify(user));
+
+   show("Account created successfully!");
+
+   setTimeout(function(){
+     location.href="dashboard.html";
+   },700);
+
+ }else{
+
+   const saved=localStorage.getItem("sdEmpireUser");
+
+   if(!saved){
+     show("Account not found. Please Sign Up first.");
+     return;
+   }
+
+   const user=JSON.parse(saved);
+
+   if(user.email===email && user.password===password){
+
+     localStorage.setItem("sdEmpireLoggedIn","true");
+
+     location.href="dashboard.html";
+
+   }else{
+     show("Incorrect email or password.");
+   }
+ }
+
+});
+
+function show(text){
+ document.getElementById("message").innerText=text;
 }
 
 </script>
 
 </body>
-  </html>
+</html>
