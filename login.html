@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SD Empire | Login</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <style>
 :root{
  --orange:#FF7F00;
@@ -133,107 +135,167 @@ Login to access your SD Empire dashboard.
 
 <script>
 
-let signup=false;
+emailjs.init({
+  publicKey: "gass9ReoapaS8b-Gg"
+});
 
-const params=new URLSearchParams(location.search);
-const selectedCourse=params.get("course");
+let signup = false;
+
+const params = new URLSearchParams(location.search);
+const selectedCourse = params.get("course");
 
 if(selectedCourse){
- document.getElementById("selected").style.display="block";
- document.getElementById("selected").innerText=
- "Selected: "+selectedCourse;
- localStorage.setItem("selectedCourse",selectedCourse);
+
+  document.getElementById("selected").style.display = "block";
+
+  document.getElementById("selected").innerText =
+    "Selected: " + selectedCourse;
+
+  localStorage.setItem("selectedCourse", selectedCourse);
 }
 
 function toggleMode(){
 
- signup=!signup;
+  signup = !signup;
 
- document.getElementById("name").style.display=
- signup ? "block" : "none";
+  document.getElementById("name").style.display =
+    signup ? "block" : "none";
 
- document.querySelector("label").style.display=
- signup ? "block" : "none";
+  document.querySelector("label").style.display =
+    signup ? "block" : "none";
 
- document.getElementById("title").innerText=
- signup ? "Create Account" : "Welcome Back";
+  document.getElementById("title").innerText =
+    signup ? "Create Account" : "Welcome Back";
 
- document.getElementById("subtitle").innerText=
- signup
- ? "Create your SD Empire account."
- : "Login to access your dashboard.";
+  document.getElementById("subtitle").innerText =
+    signup
+    ? "Create your SD Empire account."
+    : "Login to access your dashboard.";
 
- document.getElementById("submitBtn").innerText=
- signup ? "Create Account" : "Login";
+  document.getElementById("submitBtn").innerText =
+    signup ? "Create Account" : "Login";
 
- document.getElementById("switchText").innerText=
- signup ? "Already have an account?" : "Don't have an account?";
+  document.getElementById("switchText").innerText =
+    signup ? "Already have an account?" : "Don't have an account?";
 
- document.querySelector(".switch a").innerText=
- signup ? " Login" : " Sign Up";
+  document.querySelector(".switch a").innerText =
+    signup ? " Login" : " Sign Up";
 }
 
-document.getElementById("name").style.display="none";
-document.querySelector("label").style.display="none";
+document.getElementById("name").style.display = "none";
+document.querySelector("label").style.display = "none";
 
-document.getElementById("authForm").addEventListener("submit",function(e){
+document.getElementById("authForm").addEventListener("submit", async function(e){
 
- e.preventDefault();
+  e.preventDefault();
 
- const name=document.getElementById("name").value.trim();
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
+  const name =
+    document.getElementById("name").value.trim();
 
- if(signup){
+  const email =
+    document.getElementById("email").value.trim();
 
-   if(!name){
-     show("Please enter your name.");
-     return;
-   }
+  const password =
+    document.getElementById("password").value;
 
-   const user={
-     name:name,
-     email:email,
-     password:password
-   };
+  if(signup){
 
-   localStorage.setItem("sdEmpireUser",JSON.stringify(user));
+    if(!name){
+      show("Please enter your name.");
+      return;
+    }
 
-   show("Account created successfully!");
+    const user = {
+      name:name,
+      email:email,
+      password:password
+    };
 
-   setTimeout(function(){
-     location.href="dashboard.html";
-   },700);
+    localStorage.setItem(
+      "sdEmpireUser",
+      JSON.stringify(user)
+    );
 
- }else{
+    const course =
+      selectedCourse ||
+      localStorage.getItem("selectedCourse") ||
+      "Not selected";
 
-   const saved=localStorage.getItem("sdEmpireUser");
+    show("Creating account...");
 
-   if(!saved){
-     show("Account not found. Please Sign Up first.");
-     return;
-   }
+    try{
 
-   const user=JSON.parse(saved);
+      await emailjs.send(
+        "service_1ben2mg",
+        "template_ybr7ub",
+        {
+          name:name,
+          email:email,
+          course:course,
+          phone:"Not provided",
+          payment_status:"Pending",
+          message:"New course enrollment/account registration"
+        }
+      );
 
-   if(user.email===email && user.password===password){
+      show("Account created! Enrollment details sent.");
 
-     localStorage.setItem("sdEmpireLoggedIn","true");
+    }catch(error){
 
-     location.href="dashboard.html";
+      console.error(error);
 
-   }else{
-     show("Incorrect email or password.");
-   }
- }
+      show("Account created, but email could not be sent.");
+
+    }
+
+    setTimeout(function(){
+
+      location.href = "dashboard.html";
+
+    },1000);
+
+  }else{
+
+    const saved =
+      localStorage.getItem("sdEmpireUser");
+
+    if(!saved){
+
+      show("Account not found. Please Sign Up first.");
+
+      return;
+    }
+
+    const user = JSON.parse(saved);
+
+    if(
+      user.email === email &&
+      user.password === password
+    ){
+
+      localStorage.setItem(
+        "sdEmpireLoggedIn",
+        "true"
+      );
+
+      location.href = "dashboard.html";
+
+    }else{
+
+      show("Incorrect email or password.");
+
+    }
+  }
 
 });
 
 function show(text){
- document.getElementById("message").innerText=text;
+
+  document.getElementById("message").innerText = text;
+
 }
 
 </script>
 
 </body>
-</html>
+ </html>
