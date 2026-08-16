@@ -13,6 +13,7 @@
  --dark:#160044;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
  font-family:Arial,sans-serif;
  min-height:100vh;
@@ -22,6 +23,7 @@ body{
  background:linear-gradient(135deg,#160044,#351080);
  padding:20px;
 }
+
 .box{
  width:100%;
  max-width:430px;
@@ -30,6 +32,7 @@ body{
  padding:35px;
  box-shadow:0 20px 50px #0005;
 }
+
 .logo{
  text-align:center;
  font-size:28px;
@@ -37,10 +40,29 @@ body{
  color:var(--dark);
  margin-bottom:8px;
 }
+
 .logo span{color:var(--orange)}
-h2{text-align:center;margin:10px 0;color:#222}
-.subtitle{text-align:center;color:#777;font-size:14px;margin-bottom:25px}
-label{display:block;font-size:14px;font-weight:bold;margin:15px 0 7px}
+
+h2{
+ text-align:center;
+ margin:10px 0;
+ color:#222;
+}
+
+.subtitle{
+ text-align:center;
+ color:#777;
+ font-size:14px;
+ margin-bottom:25px;
+}
+
+label{
+ display:block;
+ font-size:14px;
+ font-weight:bold;
+ margin:15px 0 7px;
+}
+
 input{
  width:100%;
  padding:14px;
@@ -48,7 +70,11 @@ input{
  border-radius:9px;
  outline:none;
 }
-input:focus{border-color:var(--orange)}
+
+input:focus{
+ border-color:var(--orange);
+}
+
 button{
  width:100%;
  padding:14px;
@@ -61,13 +87,19 @@ button{
  cursor:pointer;
  font-size:15px;
 }
+
 .switch{
  text-align:center;
  margin-top:20px;
  font-size:14px;
  color:#777;
 }
-.switch a{color:var(--orange);font-weight:bold}
+
+.switch a{
+ color:var(--orange);
+ font-weight:bold;
+}
+
 .back{
  display:block;
  text-align:center;
@@ -75,12 +107,14 @@ button{
  color:var(--dark);
  font-size:14px;
 }
+
 .message{
  text-align:center;
  margin-top:12px;
  color:var(--orange);
  font-size:14px;
 }
+
 .course-selected{
  background:#fff3e6;
  padding:10px;
@@ -105,193 +139,363 @@ button{
 Login to access your SD Empire dashboard.
 </p>
 
-<div id="selected" class="course-selected" style="display:none"></div>
+<div id="selected"
+class="course-selected"
+style="display:none">
+</div>
 
 <form id="authForm">
 
+<div id="nameField" style="display:none">
+
 <label>Full Name</label>
-<input type="text" id="name" placeholder="Enter your name">
+<input
+type="text"
+id="name"
+placeholder="Enter your full name">
+</div>
+
+<div id="phoneField" style="display:none">
+
+<label>Phone Number</label>
+<input
+type="tel"
+id="phone"
+placeholder="Enter your phone number">
+</div>
 
 <label>Email</label>
-<input type="email" id="email" placeholder="Enter your email" required>
+
+<input
+type="email"
+id="email"
+placeholder="Enter your email"
+required>
 
 <label>Password</label>
-<input type="password" id="password" placeholder="Enter password" required>
 
-<button type="submit" id="submitBtn">Login</button>
+<input
+type="password"
+id="password"
+placeholder="Enter password"
+required>
+
+<button type="submit" id="submitBtn">
+Login
+</button>
 
 </form>
 
 <div class="switch">
-<span id="switchText">Don't have an account?</span>
-<a href="#" onclick="toggleMode()"> Sign Up</a>
+<span id="switchText">
+Don't have an account?
+</span>
+
+<a href="#" onclick="toggleMode()">
+Sign Up
+</a>
 </div>
 
 <div class="message" id="message"></div>
 
-<a href="index.html" class="back">← Back to Home</a>
+<a href="index.html" class="back">
+← Back to Home
+</a>
 
 </div>
 
+
 <script>
 
+/* =========================
+   EMAILJS
+========================= */
+
 emailjs.init({
-  publicKey: "gass9ReoapaS8b-Gg"
+ publicKey: "gass9ReoapaS8b-Gg"
 });
+
 
 let signup = false;
 
-const params = new URLSearchParams(location.search);
-const selectedCourse = params.get("course");
+
+/* =========================
+   COURSE
+========================= */
+
+const params =
+new URLSearchParams(location.search);
+
+const selectedCourse =
+params.get("course");
 
 if(selectedCourse){
 
-  document.getElementById("selected").style.display = "block";
+ document.getElementById("selected").style.display =
+ "block";
 
-  document.getElementById("selected").innerText =
-    "Selected: " + selectedCourse;
+ document.getElementById("selected").innerText =
+ "Selected Course: " + selectedCourse;
 
-  localStorage.setItem("selectedCourse", selectedCourse);
+ localStorage.setItem(
+ "selectedCourse",
+ selectedCourse
+ );
+
 }
+
+
+/* =========================
+   TOGGLE SIGNUP / LOGIN
+========================= */
 
 function toggleMode(){
 
-  signup = !signup;
+ signup = !signup;
 
-  document.getElementById("name").style.display =
-    signup ? "block" : "none";
+ document.getElementById("nameField").style.display =
+ signup ? "block" : "none";
 
-  document.querySelector("label").style.display =
-    signup ? "block" : "none";
+ document.getElementById("phoneField").style.display =
+ signup ? "block" : "none";
 
-  document.getElementById("title").innerText =
-    signup ? "Create Account" : "Welcome Back";
 
-  document.getElementById("subtitle").innerText =
-    signup
-    ? "Create your SD Empire account."
-    : "Login to access your dashboard.";
+ document.getElementById("title").innerText =
+ signup
+ ? "Create Account"
+ : "Welcome Back";
 
-  document.getElementById("submitBtn").innerText =
-    signup ? "Create Account" : "Login";
 
-  document.getElementById("switchText").innerText =
-    signup ? "Already have an account?" : "Don't have an account?";
+ document.getElementById("subtitle").innerText =
+ signup
+ ? "Create your SD Empire account."
+ : "Login to access your dashboard.";
 
-  document.querySelector(".switch a").innerText =
-    signup ? " Login" : " Sign Up";
+
+ document.getElementById("submitBtn").innerText =
+ signup
+ ? "Create Account"
+ : "Login";
+
+
+ document.getElementById("switchText").innerText =
+ signup
+ ? "Already have an account?"
+ : "Don't have an account?";
+
+
+ document.querySelector(".switch a").innerText =
+ signup
+ ? " Login"
+ : " Sign Up";
+
 }
 
-document.getElementById("name").style.display = "none";
-document.querySelector("label").style.display = "none";
 
-document.getElementById("authForm").addEventListener("submit", async function(e){
+/* =========================
+   FORM SUBMIT
+========================= */
 
-  e.preventDefault();
+document
+.getElementById("authForm")
+.addEventListener("submit", async function(e){
 
-  const name =
-    document.getElementById("name").value.trim();
+ e.preventDefault();
 
-  const email =
-    document.getElementById("email").value.trim();
 
-  const password =
-    document.getElementById("password").value;
+ const name =
+ document.getElementById("name").value.trim();
 
-  if(signup){
 
-    if(!name){
-      show("Please enter your name.");
-      return;
-    }
+ const phone =
+ document.getElementById("phone").value.trim();
 
-    const user = {
-      name:name,
-      email:email,
-      password:password
-    };
 
-    localStorage.setItem(
-      "sdEmpireUser",
-      JSON.stringify(user)
-    );
+ const email =
+ document.getElementById("email").value.trim();
 
-    const course =
-      selectedCourse ||
-      localStorage.getItem("selectedCourse") ||
-      "Not selected";
 
-    show("Creating account...");
+ const password =
+ document.getElementById("password").value;
 
-    try{
 
-      await emailjs.send(
-        "service_1ben2mg",
-        "template_ybr7ub",
-        {
-          name:name,
-          email:email,
-          course:course,
-          phone:"Not provided",
-          payment_status:"Pending",
-          message:"New course enrollment/account registration"
-        }
-      );
+ /* =========================
+    SIGN UP / ENROLLMENT
+ ========================= */
 
-      show("Account created! Enrollment details sent.");
+ if(signup){
 
-    }catch(error){
+   if(!name){
 
-      console.error(error);
+     show("Please enter your name.");
 
-      show("Account created, but email could not be sent.");
+     return;
+   }
 
-    }
 
-    setTimeout(function(){
+   if(!phone){
 
-      location.href = "dashboard.html";
+     show("Please enter your phone number.");
 
-    },1000);
+     return;
+   }
 
-  }else{
 
-    const saved =
-      localStorage.getItem("sdEmpireUser");
+   const course =
+   selectedCourse ||
+   localStorage.getItem("selectedCourse") ||
+   "Not selected";
 
-    if(!saved){
 
-      show("Account not found. Please Sign Up first.");
+   const user = {
 
-      return;
-    }
+     name:name,
 
-    const user = JSON.parse(saved);
+     email:email,
 
-    if(
-      user.email === email &&
-      user.password === password
-    ){
+     phone:phone,
 
-      localStorage.setItem(
-        "sdEmpireLoggedIn",
-        "true"
-      );
+     password:password,
 
-      location.href = "dashboard.html";
+     course:course
 
-    }else{
+   };
 
-      show("Incorrect email or password.");
 
-    }
-  }
+   localStorage.setItem(
+   "sdEmpireUser",
+   JSON.stringify(user)
+   );
+
+
+   show("Sending enrollment details...");
+
+
+   try{
+
+     const templateParams = {
+
+       name: name,
+
+       email: email,
+
+       phone: phone,
+
+       course: course,
+
+       payment_status: "Pending",
+
+       message:
+       "New student enrolled on SD Empire."
+
+
+     };
+
+
+     await emailjs.send(
+
+       "service_1ben2mg",
+
+       "template_ybr7ub",
+
+       templateParams
+
+     );
+
+
+     show(
+     "Enrollment successful! Details sent to SD Empire."
+     );
+
+
+   }catch(error){
+
+     console.error(
+     "EmailJS Error:",
+     error
+     );
+
+
+     show(
+     "Account created, but email sending failed."
+     );
+
+   }
+
+
+   setTimeout(function(){
+
+     location.href =
+     "dashboard.html";
+
+   },1500);
+
+
+ }
+
+
+ /* =========================
+    LOGIN
+ ========================= */
+
+ else{
+
+   const saved =
+   localStorage.getItem("sdEmpireUser");
+
+
+   if(!saved){
+
+     show(
+     "Account not found. Please Sign Up first."
+     );
+
+     return;
+
+   }
+
+
+   const user =
+   JSON.parse(saved);
+
+
+   if(
+   user.email === email &&
+   user.password === password
+   ){
+
+     localStorage.setItem(
+     "sdEmpireLoggedIn",
+     "true"
+     );
+
+
+     location.href =
+     "dashboard.html";
+
+   }
+
+   else{
+
+     show(
+     "Incorrect email or password."
+     );
+
+   }
+
+ }
 
 });
 
+
+/* =========================
+   MESSAGE
+========================= */
+
 function show(text){
 
-  document.getElementById("message").innerText = text;
+ document.getElementById("message").innerText =
+ text;
 
 }
 
